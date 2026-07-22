@@ -2,65 +2,66 @@ import { ArrowRightOutlined, CloudServerOutlined, RocketOutlined, SafetyCertific
 import { Button, Card, Tag } from 'antd';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Autoplay, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import SectionTitle from '../../components/SectionTitle';
 import { advantages, companyStats, newsItems, products } from '../../data/site';
-
-const heroSlides = [
-  {
-    title: 'Build Future',
-    subtitle: 'React Enterprise Website Demo',
-    description: '用真实企业官网结构练习 React 组件、路由、动画、响应式布局和项目分层。',
-  },
-  {
-    title: 'Ship Clear',
-    subtitle: 'Component Driven Website',
-    description: '把首页、产品、新闻和联系表单拆成可维护模块，接近公司项目开发方式。',
-  },
-  {
-    title: 'Grow Smart',
-    subtitle: 'CMS Ready Architecture',
-    description: '通过模拟数据和 api 层预留真实接口边界，方便后续接入 CMS 或后端服务。',
-  },
-];
 
 const icons = [<RocketOutlined />, <CloudServerOutlined />, <SafetyCertificateOutlined />, <ArrowRightOutlined />];
 
 export default function Home() {
   return (
     <div>
-      <section className="relative flex h-[calc(100vh-96px)] min-h-[520px] max-h-[720px] items-center overflow-hidden bg-white dark:bg-[#101514]">
-        <img src="/images/hero-enterprise.png" alt="企业数字平台展示" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-white/82 dark:bg-[#101514]/72" />
-        <div className="page-shell relative">
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="max-w-2xl"
-          >
-            <Swiper modules={[Autoplay, Pagination]} autoplay={{ delay: 4200, disableOnInteraction: false }} pagination={{ clickable: true }} loop className="pb-10">
-              {heroSlides.map((slide) => (
-                <SwiperSlide key={slide.title}>
-                  <p className="text-sm font-semibold text-brand-teal dark:text-teal-200">{slide.subtitle}</p>
-                  <h1 className="mt-4 text-5xl font-bold leading-tight text-brand-ink dark:text-white md:text-7xl">{slide.title}</h1>
-                  <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700 dark:text-slate-200">{slide.description}</p>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+      <section className="relative overflow-hidden bg-white dark:bg-[#101514]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(15,118,110,0.12),_transparent_40%),linear-gradient(180deg,_rgba(255,255,255,0.92),_rgba(255,255,255,0.8))] dark:bg-[radial-gradient(circle_at_top,_rgba(52,211,153,0.18),_transparent_40%),linear-gradient(180deg,_rgba(16,21,21,0.92),_rgba(16,21,21,0.88))]" />
+        <div className="page-shell relative py-20 md:py-24">
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="max-w-2xl"
+            >
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-teal dark:text-teal-200">React 企业官网 Demo</p>
+              <h1 className="mt-6 text-4xl font-bold leading-tight text-brand-ink dark:text-white sm:text-5xl md:text-6xl">
+                用 React + TypeScript 构建企业官网级首页体验
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+                这个 Demo 包含首页 Banner、产品展示、业务优势、新闻入口和在线联系表单，重点练习组件拆分、路由、主题切换和响应式布局。
+              </p>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link to="/product">
+                  <Button type="primary" size="large" icon={<ArrowRightOutlined />}>
+                    查看产品
+                  </Button>
+                </Link>
+                <Link to="/about">
+                  <Button size="large">了解我们</Button>
+                </Link>
+              </div>
+            </motion.div>
 
-            <div className="mt-3 flex flex-wrap gap-3">
-              <Link to="/product">
-                <Button type="primary" size="large" icon={<ArrowRightOutlined />}>
-                  查看产品
-                </Button>
-              </Link>
-              <Link to="/about">
-                <Button size="large">了解我们</Button>
-              </Link>
+            <div className="rounded-[32px] border border-slate-200 bg-white/80 p-8 shadow-soft backdrop-blur dark:border-white/10 dark:bg-[#0f172a]/80">
+              <div className="space-y-6">
+                <div className="rounded-3xl bg-brand-teal/10 p-6 text-brand-teal dark:bg-teal-400/10 dark:text-teal-200">
+                  <p className="text-sm uppercase tracking-[0.24em]">领先解决方案</p>
+                  <h2 className="mt-4 text-2xl font-bold">适合企业官网、产品展示与内容运营</h2>
+                </div>
+                <div className="grid gap-4">
+                  <div className="rounded-3xl border border-slate-200 p-6 dark:border-white/10">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">组件化结构</p>
+                    <p className="mt-3 font-semibold text-brand-ink dark:text-white">Header / Banner / 产品卡片 / Footer 可复用</p>
+                  </div>
+                  <div className="rounded-3xl border border-slate-200 p-6 dark:border-white/10">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">主题和路由</p>
+                    <p className="mt-3 font-semibold text-brand-ink dark:text-white">支持深色模式，使用 React Router 管理页面导航</p>
+                  </div>
+                  <div className="rounded-3xl border border-slate-200 p-6 dark:border-white/10">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">本地模拟接口</p>
+                    <p className="mt-3 font-semibold text-brand-ink dark:text-white">新闻列表和详情通过本地 api 层获取数据</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -141,7 +142,7 @@ export default function Home() {
                 <article className="h-full rounded-lg border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-[#151c1b]">
                   <p className="text-sm text-brand-teal dark:text-teal-200">{item.category}</p>
                   <h3 className="mt-3 text-xl font-bold leading-7 text-brand-ink dark:text-white">{item.title}</h3>
-                  <p className="mt-3 line-clamp-3 leading-7 text-slate-600 dark:text-slate-300">{item.summary}</p>
+                  <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">{item.summary}</p>
                   <p className="mt-5 text-sm text-slate-500 dark:text-slate-400">{item.date}</p>
                 </article>
               </Link>
