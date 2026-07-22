@@ -1,13 +1,43 @@
 import { ArrowRightOutlined, CloudServerOutlined, RocketOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
-import { Button, Card, Tag } from 'antd';
+import { Button, Card, Spin, Tag } from 'antd';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getNewsList } from '../../api/news';
 import SectionTitle from '../../components/SectionTitle';
-import { advantages, companyStats, newsItems, products } from '../../data/site';
+import { advantages, companyStats, products } from '../../data/site';
+import { NewsItem } from '../../types/site';
 
 const icons = [<RocketOutlined />, <CloudServerOutlined />, <SafetyCertificateOutlined />, <ArrowRightOutlined />];
 
 export default function Home() {
+  const [latestNews, setLatestNews] = useState<NewsItem[]>([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+
+    getNewsList()
+      .then((data) => {
+        if (active) {
+          setLatestNews(data.slice(0, 3));
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setLatestNews([]);
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setNewsLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
   return (
     <div>
       <section className="relative overflow-hidden bg-white dark:bg-[#101514]">
@@ -131,22 +161,32 @@ export default function Home() {
       <section className="py-16">
         <div className="page-shell">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <SectionTitle eyebrow="News" title="新闻动态" description="模拟企业官网中常见的新闻列表与详情入口。" />
+            <SectionTitle eyebrow="News" title="新闻动态" description="新闻内容来自 Hacker News top stories API，按科技主题展示实时热点。" />
             <Link to="/news">
               <Button icon={<ArrowRightOutlined />}>全部新闻</Button>
             </Link>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {newsItems.slice(0, 3).map((item) => (
-              <Link key={item.id} to={`/news/${item.id}`}>
-                <article className="h-full rounded-lg border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-[#151c1b]">
-                  <p className="text-sm text-brand-teal dark:text-teal-200">{item.category}</p>
-                  <h3 className="mt-3 text-xl font-bold leading-7 text-brand-ink dark:text-white">{item.title}</h3>
-                  <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">{item.summary}</p>
-                  <p className="mt-5 text-sm text-slate-500 dark:text-slate-400">{item.date}</p>
-                </article>
-              </Link>
-            ))}
+            {newsLoading ? (
+              <div className="col-span-full grid min-h-36 place-items-center">
+                <Spin />
+              </div>
+            ) : latestNews.length ? (
+              latestNews.map((item) => (
+                <Link key={item.id} to={`/news/${item.id}`}>
+                  <article className="h-full rounded-lg border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-[#151c1b]">
+                    <p className="text-sm text-brand-teal dark:text-teal-200">{item.category}</p>
+                    <h3 className="mt-3 text-xl font-bold leading-7 text-brand-ink dark:text-white">{item.title}</h3>
+                    <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">{item.summary}</p>
+                    <p className="mt-5 text-sm text-slate-500 dark:text-slate-400">{item.date}</p>
+                  </article>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full rounded-lg border border-dashed border-slate-300 bg-white/70 px-5 py-8 text-sm text-slate-500 dark:border-white/10 dark:bg-[#151c1b] dark:text-slate-400">
+                新闻接口暂时不可用，请稍后刷新。
+              </div>
+            )}
           </div>
         </div>
       </section>

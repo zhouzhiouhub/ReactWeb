@@ -15,6 +15,12 @@ export interface NewsItem {
   category: string;
   summary: string;
   content: string[];
+  source?: string;
+  url?: string;
+  author?: string;
+  score?: number;
+  commentCount?: number;
+  discussionUrl?: string;
 }
 
 export interface TeamMember {
